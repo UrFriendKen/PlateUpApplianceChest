@@ -196,6 +196,7 @@ namespace KitchenApplianceChest.Customs
 
         public override List<Appliance> Upgrades => new List<Appliance>()
         {
+            GDOUtils.GetCastedGDO<Appliance, LockedChest>()
         };
 
         bool isRegistered = false;
