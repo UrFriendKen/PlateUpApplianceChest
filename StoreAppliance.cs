@@ -51,6 +51,10 @@ namespace KitchenApplianceChest
             {
                 return false;
             }
+            if (Has<CApplyDecor>(Holder.HeldItem))
+            {
+                return false;
+            }
             if (Has<CBlueprintStore>(Holder.HeldItem) || Has<CApplianceStorage>(Holder.HeldItem))
             {
                 return false;
