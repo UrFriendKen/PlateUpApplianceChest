@@ -47,8 +47,11 @@ namespace KitchenApplianceChest
             {
                 return false;
             }
-
             if (Store.IsFull && !Store.IgnoreCapacity)
+            {
+                return false;
+            }
+            if (Has<CBlueprintStore>(Holder.HeldItem) || Has<CApplianceStorage>(Holder.HeldItem))
             {
                 return false;
             }
