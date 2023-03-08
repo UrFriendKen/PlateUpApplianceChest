@@ -1,5 +1,4 @@
-﻿using Kitchen;
-using KitchenApplianceChest.Views;
+﻿using KitchenApplianceChest.Views;
 using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
@@ -8,7 +7,6 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
-using UniverseLib.UI.Widgets;
 
 namespace KitchenApplianceChest.Customs
 {
@@ -184,6 +182,13 @@ namespace KitchenApplianceChest.Customs
                     {
                         Title = "Organisation",
                         Description = "Store up to 8 appliances inside"
+                    },
+
+
+                    new Appliance.Section()
+                    {
+                        Title = "Janitor",
+                        Description = "Clears items stored in container appliances"
                     }
                 },
             })
