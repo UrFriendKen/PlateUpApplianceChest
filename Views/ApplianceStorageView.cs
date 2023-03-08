@@ -32,16 +32,32 @@ namespace KitchenApplianceChest.Views
             }
             protected override void OnUpdate()
             {
-                NativeArray<CLinkedView> views = Stores.ToComponentDataArray<CLinkedView>(Allocator.Temp);
-                NativeArray<CApplianceStorage> stores = Stores.ToComponentDataArray<CApplianceStorage>(Allocator.Temp);
+                using NativeArray<Entity> entities = Stores.ToEntityArray(Allocator.Temp);
+                using NativeArray<CLinkedView> views = Stores.ToComponentDataArray<CLinkedView>(Allocator.Temp);
+                using NativeArray<CApplianceStorage> stores = Stores.ToComponentDataArray<CApplianceStorage>(Allocator.Temp);
 
                 for (int i = 0; i < views.Length; i++)
                 {
+                    var entity = entities[i];
                     var view = views[i];
                     var store = stores[i];
 
+                    if (Has<CApplianceStorageUnlockRequest>(entity) && Require(entity, out CIsLockedApplianceStorage isLocked))
+                    {
+                        if (isLocked.ViewUpdateDelay <= 0f)
+                        {
+                            EntityManager.RemoveComponent<CApplianceStorageUnlockRequest>(entity);
+                            EntityManager.RemoveComponent<CIsLockedApplianceStorage>(entity);
+                        }
+                        else
+                        {
+                            isLocked.ViewUpdateDelay -= Time.DeltaTime;
+                            Set(entity, isLocked);
+                        }
+                    }
+
                     ViewData data = new ViewData();
-                    List<int> ids = stores[i].GetApplianceIDs();
+                    List<int> ids = store.GetApplianceIDs();
                     data.ID0 = ids[0];
                     data.ID1 = ids[1];
                     data.ID2 = ids[2];
@@ -50,6 +66,7 @@ namespace KitchenApplianceChest.Views
                     data.ID5 = ids[5];
                     data.ID6 = ids[6];
                     data.ID7 = ids[7];
+                    data.IsLocked = Has<CIsLockedApplianceStorage>(entity);
 
                     SendUpdate(view, data);
                 }
@@ -76,6 +93,8 @@ namespace KitchenApplianceChest.Views
             public int ID6;
             [Key(7)]
             public int ID7;
+            [Key(8)]
+            public bool IsLocked;
 
             public IUpdatableObject GetRelevantSubview(IObjectView view)
             {
@@ -92,7 +111,8 @@ namespace KitchenApplianceChest.Views
                     ID4 != check.ID4 ||
                     ID5 != check.ID5 ||
                     ID6 != check.ID6 ||
-                    ID7 != check.ID7;
+                    ID7 != check.ID7 ||
+                    IsLocked != check.IsLocked;
             }
         }
 
