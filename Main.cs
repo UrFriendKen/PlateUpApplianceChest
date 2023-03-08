@@ -1,20 +1,16 @@
 ﻿using Kitchen;
 using Kitchen.Modules;
+using KitchenApplianceChest.Customs;
 using KitchenData;
-using KitchenDragNDropDesigner;
 using KitchenLib;
 using KitchenLib.Event;
 using KitchenLib.Preferences;
-using KitchenLib.References;
 using KitchenLib.Utils;
 using KitchenMods;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using UnityExplorer.UI;
-using KitchenLib.Utils;
-using KitchenApplianceChest.Customs;
 
 // Namespace should have "Kitchen" in the beginning
 namespace KitchenApplianceChest
@@ -26,7 +22,7 @@ namespace KitchenApplianceChest
         // Mod Version must follow semver notation e.g. "1.2.3"
         public const string MOD_GUID = "IcedMilo.PlateUp.ApplianceChest";
         public const string MOD_NAME = "Appliance Chest";
-        public const string MOD_VERSION = "0.1.0";
+        public const string MOD_VERSION = "0.1.1";
         public const string MOD_AUTHOR = "IcedMilo";
         public const string MOD_GAMEVERSION = ">=1.1.4";
         // Game version this mod is designed for in semver
