@@ -22,7 +22,7 @@ namespace KitchenApplianceChest
         // Mod Version must follow semver notation e.g. "1.2.3"
         public const string MOD_GUID = "IcedMilo.PlateUp.ApplianceChest";
         public const string MOD_NAME = "Appliance Chest";
-        public const string MOD_VERSION = "0.1.1";
+        public const string MOD_VERSION = "0.2.0";
         public const string MOD_AUTHOR = "IcedMilo";
         public const string MOD_GAMEVERSION = ">=1.1.4";
         // Game version this mod is designed for in semver
@@ -72,7 +72,8 @@ namespace KitchenApplianceChest
         {
             LogInfo("Attempting to register game data...");
 
-            AddGameDataObject<KitchenApplianceChest.Customs.Chest>();
+            AddGameDataObject<Chest>();
+            AddGameDataObject<LockedChest>();
 
             LogInfo("Done loading game data.");
         }
