@@ -38,6 +38,10 @@ namespace KitchenApplianceChest
             {
                 return false;
             }
+            if (Has<CIsLockedApplianceStorage>(data.Target))
+            {
+                return false;
+            }
             if (!Require<CStoredPlates>(data.Target, out StoredPlates))
             {
                 return false;
