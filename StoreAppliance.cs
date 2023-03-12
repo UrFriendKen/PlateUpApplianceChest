@@ -59,6 +59,10 @@ namespace KitchenApplianceChest
             {
                 return false;
             }
+            if (Has<CIsLockedApplianceStorage>(data.Target))
+            {
+                return false;
+            }
             return true;
         }
 

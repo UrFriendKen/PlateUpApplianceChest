@@ -1,5 +1,4 @@
 ﻿using Kitchen;
-using KitchenApplianceChest.Views;
 using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
@@ -78,7 +77,7 @@ namespace KitchenApplianceChest.Customs
         public override DecorationType ThemeRequired => DecorationType.Null;
         public override ShoppingTags ShoppingTags => ShoppingTags.Office | ShoppingTags.Technology;
         public override RarityTier RarityTier => RarityTier.Common;
-        public override PriceTier PriceTier => PriceTier.VeryExpensive;
+        public override PriceTier PriceTier => PriceTier.ExtremelyExpensive;
         public override bool StapleWhenMissing => false;
         public override bool SellOnlyAsDuplicate => false;
         public override bool PreventSale => false;
