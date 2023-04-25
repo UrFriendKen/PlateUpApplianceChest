@@ -10,6 +10,7 @@ using KitchenMods;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unity.Entities;
 using UnityEngine;
 
 // Namespace should have "Kitchen" in the beginning
@@ -22,7 +23,7 @@ namespace KitchenApplianceChest
         // Mod Version must follow semver notation e.g. "1.2.3"
         public const string MOD_GUID = "IcedMilo.PlateUp.ApplianceChest";
         public const string MOD_NAME = "Appliance Chest";
-        public const string MOD_VERSION = "0.2.1";
+        public const string MOD_VERSION = "0.2.2";
         public const string MOD_AUTHOR = "IcedMilo";
         public const string MOD_GAMEVERSION = ">=1.1.4";
         // Game version this mod is designed for in semver
@@ -44,12 +45,17 @@ namespace KitchenApplianceChest
 
         internal static PreferenceBool ApplianceChestEnabledPreference;
 
+        internal static int ChestApplianceID;
+
+        static Main Instance;
+
         public Main() : base(MOD_GUID, MOD_NAME, MOD_AUTHOR, MOD_VERSION, MOD_GAMEVERSION, Assembly.GetExecutingAssembly()) { }
 
         protected override void OnInitialise()
         {
             LogWarning($"{MOD_GUID} v{MOD_VERSION} in use!");
             UpdateUpgrades();
+            Instance = this;
         }
         private void UpdateUpgrades()
         {
@@ -72,7 +78,7 @@ namespace KitchenApplianceChest
         {
             LogInfo("Attempting to register game data...");
 
-            AddGameDataObject<Chest>();
+            ChestApplianceID = AddGameDataObject<Chest>().ID;
             AddGameDataObject<LockedChest>();
 
             LogInfo("Done loading game data.");
@@ -114,6 +120,30 @@ namespace KitchenApplianceChest
                 args.Menus.Add(typeof(PrefMenu<PauseMenuAction>), new PrefMenu<PauseMenuAction>(args.Container, args.Module_list));
             };
             ModsPreferencesMenu<PauseMenuAction>.RegisterMenu(MOD_NAME, typeof(PrefMenu<PauseMenuAction>), typeof(PauseMenuAction));
+        }
+
+        internal static bool TryGetStoredAppliances(Entity e, out IEnumerable<Appliance> storedAppliances)
+        {
+            bool success = false;
+            List<Appliance> tempStoredAppliances = new List<Appliance>();
+
+            if (Instance.Require(e, out CApplianceStorage applianceStorage))
+            {
+                List<int> storedApplianceIds = applianceStorage.GetApplianceIDs();
+                if (storedApplianceIds.Count > 0)
+                {
+                    foreach (int storedApplianceId in storedApplianceIds)
+                    {
+                        if (storedApplianceId == 0)
+                            continue;
+                        if (GameData.Main.TryGet(storedApplianceId, out Appliance storedAppliance, warn_if_fail: true))
+                            tempStoredAppliances.Add(storedAppliance);
+                    }
+                }
+                success = true;
+            }
+            storedAppliances = tempStoredAppliances;
+            return success;
         }
 
         #region Logging

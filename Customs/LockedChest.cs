@@ -109,10 +109,8 @@ namespace KitchenApplianceChest.Customs
 
 
 
-        public override void OnRegister(GameDataObject gameDataObject)
+        public override void OnRegister(Appliance gameDataObject)
         {
-            base.OnRegister(gameDataObject);
-
             if (!isRegistered)
             {
                 ApplyMaterials();
