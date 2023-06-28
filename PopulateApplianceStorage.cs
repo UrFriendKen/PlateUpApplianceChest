@@ -1,4 +1,5 @@
 ﻿using Kitchen;
+using Kitchen.ShopBuilder;
 using KitchenApplianceChest.Customs;
 using KitchenData;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace KitchenApplianceChest
     internal class PopulateApplianceStorage : GameSystemBase
     {
         EntityQuery ApplianceStorages;
+        EntityQuery ShopOptions;
 
         static List<int> ApplianceIDs;
 
@@ -20,6 +22,9 @@ namespace KitchenApplianceChest
             base.Initialise();
             ApplianceStorages = GetEntityQuery(new QueryHelper()
                 .All(typeof(CApplianceStorage), typeof(CPopulateApplianceStorage)));
+
+            ShopOptions = GetEntityQuery(new QueryHelper()
+                .All(typeof(CShopBuilderOption)));
 
             ApplianceIDs = GameData.Main.Get<Appliance>()
                 .Where(x => x.Properties.OfType<CApplianceStorage>().Count() == 0)
@@ -37,6 +42,19 @@ namespace KitchenApplianceChest
 
         protected override void OnUpdate()
         {
+            if (ApplianceStorages.IsEmpty)
+                return;
+
+            using NativeArray<CShopBuilderOption> shopOptions = ShopOptions.ToComponentDataArray<CShopBuilderOption>(Allocator.Temp);
+            List<int> applianceIDs = new List<int>();
+            for (int i = 0; i < shopOptions.Length; i++)
+            {
+                if (!shopOptions[i].IsRemoved && ApplianceIDs.Contains(shopOptions[i].Appliance))
+                {
+                    applianceIDs.Add(shopOptions[i].Appliance);
+                }
+            }
+
             using NativeArray<Entity> entities = ApplianceStorages.ToEntityArray(Allocator.Temp);
             using NativeArray<CApplianceStorage> storages = ApplianceStorages.ToComponentDataArray<CApplianceStorage>(Allocator.Temp);
             using NativeArray<CPopulateApplianceStorage> populaters = ApplianceStorages.ToComponentDataArray<CPopulateApplianceStorage>(Allocator.Temp);
@@ -54,8 +72,8 @@ namespace KitchenApplianceChest
                 {
                     if (j < min || Random.value < 0.5f)
                     {
-                        int randomIndex = Random.Range(0, ApplianceIDs.Count);
-                        storage.Store(ApplianceIDs[randomIndex]);
+                        int randomIndex = Random.Range(0, applianceIDs.Count);
+                        storage.Store(applianceIDs[randomIndex]);
                     }
                 }
 
