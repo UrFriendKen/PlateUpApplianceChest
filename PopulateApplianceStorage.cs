@@ -29,12 +29,9 @@ namespace KitchenApplianceChest
             ApplianceIDs = GameData.Main.Get<Appliance>()
                 .Where(x => x.Properties.OfType<CApplianceStorage>().Count() == 0)
                 .Where(x => x.Properties.OfType<CPopulateApplianceStorage>().Count() == 0)
-                .Where(x => x.Properties.OfType<CBlueprintStore>().Count() == 0)
                 .Where(x => x.IsPurchasable || x.IsPurchasableAsUpgrade)
                 .Where(x => x.ShoppingTags != ShoppingTags.None)
-                .Where(x => !x.ShoppingTags.HasFlag(ShoppingTags.BlueprintStore) &&
-                    !x.ShoppingTags.HasFlag(ShoppingTags.SpecialEvent) && 
-                    !x.ShoppingTags.HasFlag(ShoppingTags.BlueprintStore) &&
+                .Where(x => !x.ShoppingTags.HasFlag(ShoppingTags.SpecialEvent) && 
                     !x.ShoppingTags.HasFlag(ShoppingTags.Decoration))
                 .Where(x => !(x.ShoppingTags.HasFlag(ShoppingTags.Cooking) && x.ShoppingTags.HasFlag(ShoppingTags.Misc)))
                 .Select(x => x.ID).ToList();

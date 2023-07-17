@@ -55,7 +55,7 @@ namespace KitchenApplianceChest
             {
                 return false;
             }
-            if (Has<CBlueprintStore>(Holder.HeldItem) || Has<CApplianceStorage>(Holder.HeldItem))
+            if ((Require(Holder.HeldItem, out CBlueprintStore blueprintStore) && blueprintStore.InUse) || Has<CApplianceStorage>(Holder.HeldItem))
             {
                 return false;
             }
