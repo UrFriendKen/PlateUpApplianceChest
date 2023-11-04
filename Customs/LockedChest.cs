@@ -17,7 +17,6 @@ namespace KitchenApplianceChest.Customs
 
     public class LockedChest : CustomAppliance
     {
-        public override int BaseGameDataObjectID => ApplianceReferences.Countertop;
         public override string UniqueNameID => "applianceChestLocked";
         public override GameObject Prefab => Main.Bundle.LoadAsset<GameObject>("ClosedChest");
         public override List<IApplianceProperty> Properties => new List<IApplianceProperty>()

@@ -1,8 +1,7 @@
 ﻿using Kitchen;
-using Unity.Entities;
 using KitchenApplianceChest.Customs;
 using KitchenData;
-using KitchenLib.References;
+using Unity.Entities;
 
 namespace KitchenApplianceChest
 {
@@ -71,7 +70,7 @@ namespace KitchenApplianceChest
             data.Context.Destroy(Holder.HeldItem);
             data.Context.Set(data.Interactor, default(CItemHolder));
 
-            if (GameData.Main.TryGet<Appliance>(Appliance.ID, out var appliance) && appliance.GetProperty<CItemProvider>(out var provider) && provider.DefaultProvidedItem == ItemReferences.Plate)
+            if (GameData.Main.TryGet<Appliance>(Appliance.ID, out var appliance) && appliance.GetProperty<CItemProvider>(out var provider) && provider.DefaultProvidedItem == 793377380)    // Plate
             {
                 StoredPlates.PlatesCount += provider.Maximum;
                 Set(data.Target, StoredPlates);

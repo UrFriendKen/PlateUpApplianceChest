@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Kitchen;
+using KitchenApplianceChest.Views;
 using KitchenData;
-using KitchenLib.Utils;
 using System.Reflection;
 
 namespace KitchenApplianceChest.Patches
@@ -9,7 +9,6 @@ namespace KitchenApplianceChest.Patches
     [HarmonyPatch]
     static class ApplianceInfoView_Patch
     {
-        internal static string StoredAppliancesString;
         static bool _beforeFirstTag = false;
 
         static MethodInfo m_AddSection = typeof(ApplianceInfoView).GetMethod("AddSection", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -26,11 +25,13 @@ namespace KitchenApplianceChest.Patches
         static void AddTag_Prefix(ref float __state, ref float offset, ref ApplianceInfoView __instance, ref float __result)
         {
             __state = 0f;
-            if (_beforeFirstTag && !StoredAppliancesString.IsNullOrEmpty())
+            if (_beforeFirstTag &&
+                (__instance?.gameObject.TryGetComponent(out StoredAppliancesInfoView storedAppliancesInfoView) ?? false) &&
+                storedAppliancesInfoView.StoredApplianceNames != null)
             {
                 Appliance.Section section = default;
                 section.Title = "Stored Items";
-                section.Description = StoredAppliancesString;
+                section.Description = storedAppliancesInfoView.StoredApplianceNames;
                 float num = (float)m_AddSection.Invoke(__instance, new object[3]
                 {
                     offset,

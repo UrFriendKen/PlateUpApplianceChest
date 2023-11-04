@@ -139,7 +139,6 @@ namespace KitchenApplianceChest.Customs
 
     public class Chest : CustomAppliance
     {
-        public override int BaseGameDataObjectID => ApplianceReferences.Countertop;
         public override string UniqueNameID => "applianceChest";
         public override GameObject Prefab => Main.Bundle.LoadAsset<GameObject>("Chest");
         public override List<IApplianceProperty> Properties => new List<IApplianceProperty>()
