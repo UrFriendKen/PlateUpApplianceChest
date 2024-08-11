@@ -3,13 +3,14 @@ using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
+using KitchenMods;
 using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
 namespace KitchenApplianceChest.Customs
 {
-    public struct CPopulateApplianceStorage : IApplianceProperty, IAttachableProperty, IComponentData
+    public struct CPopulateApplianceStorage : IApplianceProperty, IAttachableProperty, IComponentData, IModComponent
     {
         public int Minimum;
         public int Maximum;

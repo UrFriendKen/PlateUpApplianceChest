@@ -1,11 +1,12 @@
 ﻿using Kitchen;
 using KitchenData;
+using KitchenMods;
 using Unity.Collections;
 using Unity.Entities;
 
 namespace KitchenApplianceChest
 {
-    public struct CLockDurationTimeOfDay : IApplianceProperty, IAttachableProperty, IComponentData
+    public struct CLockDurationTimeOfDay : IApplianceProperty, IAttachableProperty, IComponentData, IModComponent
     {
         public bool LockDuringDay;
         public bool LockDuringNight;

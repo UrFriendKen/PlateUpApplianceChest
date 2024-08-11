@@ -3,6 +3,7 @@ using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.References;
 using KitchenLib.Utils;
+using KitchenMods;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
@@ -10,11 +11,11 @@ using UnityEngine;
 
 namespace KitchenApplianceChest.Customs
 {
-    public struct CStoredPlates : IApplianceProperty, IAttachableProperty, IComponentData
+    public struct CStoredPlates : IApplianceProperty, IAttachableProperty, IComponentData, IModComponent
     {
         public int PlatesCount;
     }
-    public struct CStoredTables : IApplianceProperty, IAttachableProperty, IComponentData
+    public struct CStoredTables : IApplianceProperty, IAttachableProperty, IComponentData, IModComponent
     {
         FixedListInt64 TableIDs;
         FixedListInt64 TableCounts;
@@ -89,7 +90,7 @@ namespace KitchenApplianceChest.Customs
         }
     }
 
-    public struct CApplianceStorage : IApplianceProperty, IAttachableProperty, IComponentData
+    public struct CApplianceStorage : IApplianceProperty, IAttachableProperty, IComponentData, IModComponent
     {
         public int Capacity { get; set; } = 1;
         public bool IgnoreCapacity { get; set; } = false;

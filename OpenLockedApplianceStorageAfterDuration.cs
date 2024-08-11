@@ -1,19 +1,20 @@
 ﻿using Kitchen;
 using KitchenApplianceChest.Customs;
 using KitchenData;
+using KitchenMods;
 using Unity.Collections;
 using Unity.Entities;
 
 namespace KitchenApplianceChest
 {
-    public struct CIsLockedApplianceStorage : IApplianceProperty, IAttachableProperty, IComponentData
+    public struct CIsLockedApplianceStorage : IApplianceProperty, IAttachableProperty, IComponentData, IModComponent
     {
         public int UnlockedReplacementApplianceID;
         public float ViewUpdateDelay { get; set; } = 0f;
         public CIsLockedApplianceStorage() { }
     }
 
-    public struct CApplianceStorageUnlockRequest : IComponentData { }
+    public struct CApplianceStorageUnlockRequest : IComponentData, IModComponent { }
 
     internal class OpenLockedApplianceStorageAfterDuration : DaySystem
     {
@@ -46,7 +47,6 @@ namespace KitchenApplianceChest
                 {
                     continue;
                 }
-
                 EntityManager.RemoveComponent<CTakesDuration>(entity);
                 EntityManager.RemoveComponent<CDisplayDuration>(entity);
                 EntityManager.RemoveComponent<CLockDurationTimeOfDay>(entity);

@@ -2,6 +2,7 @@
 using Kitchen.ShopBuilder;
 using KitchenApplianceChest.Customs;
 using KitchenData;
+using KitchenMods;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 namespace KitchenApplianceChest
 {
-    internal class PopulateApplianceStorage : GameSystemBase
+    internal class PopulateApplianceStorage : GameSystemBase, IModSystem
     {
         EntityQuery ApplianceStorages;
         EntityQuery ShopOptions;

@@ -22,11 +22,11 @@ namespace KitchenApplianceChest
 
         protected override bool IsPossible(ref InteractionData data)
         {
-            if (!Require<CItemHolder>(data.Interactor, out Holder))
+            if (!Require(data.Interactor, out Holder))
             {
                 return false;
             }
-            if (!Require<CApplianceStorage>(data.Target, out Store))
+            if (!Require(data.Target, out Store))
             {
                 return false;
             }
@@ -34,15 +34,15 @@ namespace KitchenApplianceChest
             {
                 return false;
             }
-            if (!Require<CAppliance>(Holder.HeldItem, out Appliance))
+            if (!Require(Holder.HeldItem, out Appliance))
             {
                 return false;
             }
-            if (!Require<CStoredPlates>(data.Target, out StoredPlates))
+            if (!Require(data.Target, out StoredPlates))
             {
                 return false;
             }
-            if (!Require<CStoredTables>(data.Target, out StoredTables))
+            if (!Require(data.Target, out StoredTables))
             {
                 return false;
             }
