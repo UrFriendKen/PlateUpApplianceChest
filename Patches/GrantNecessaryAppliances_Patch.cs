@@ -15,9 +15,10 @@ namespace KitchenApplianceChest.Patches
     {
         [HarmonyPatch(typeof(GrantNecessaryAppliances), "TotalPlates")]
         [HarmonyPostfix]
-        static void TotalPlates_Postfix(ref int __result)
+        static void TotalPlates_Postfix(ref (int, int) __result)
         {
-            __result += GrantNecessaryAppliancesController.StoredPlates;
+            int storedPlates = GrantNecessaryAppliancesController.StoredPlates;
+            __result = (__result.Item1, __result.Item2 + storedPlates);
         }
 
 

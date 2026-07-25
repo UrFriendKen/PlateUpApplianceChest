@@ -9,12 +9,14 @@ namespace KitchenApplianceChest
     [UpdateBefore(typeof(GrantNecessaryAppliances))]
     internal class GrantNecessaryAppliancesController : NightSystem
     {
-        public static int StoredPlates = 0;
+        public static int StoredPlates => GetStoredPlatesCount();
+        public static Dictionary<int, int> TablesDict => GetStoredTablesDict();
 
-        public static Dictionary<int, int> TablesDict = new Dictionary<int, int>();
+        private static int _storedPlatesCount = 0;
+        private static Dictionary<int, int> _tablesDict = new Dictionary<int, int>();
 
-        EntityQuery _storedPlates;
-        EntityQuery _storedTables;
+        static EntityQuery _storedPlates;
+        static EntityQuery _storedTables;
 
         protected override void Initialise()
         {
@@ -23,32 +25,37 @@ namespace KitchenApplianceChest
             _storedTables = GetEntityQuery(typeof(CStoredTables));
         }
 
-        protected override void OnUpdate()
+        protected static int GetStoredPlatesCount()
         {
-            TablesDict.Clear();
-            NativeArray<CStoredTables> tables = _storedTables.ToComponentDataArray<CStoredTables>(Allocator.Temp);
-            foreach (var table in tables)
-            {
-                foreach(KeyValuePair<int, int> tableData in table.GetDictionary())
-                {
-                    if (!TablesDict.ContainsKey(tableData.Key))
-                    {
-                        TablesDict.Add(tableData.Key, 0);
-                    }
-                    TablesDict[tableData.Key] += tableData.Value;
-                }
-            }
-
-
-            StoredPlates = 0;
-            NativeArray<CStoredPlates> providers = _storedPlates.ToComponentDataArray<CStoredPlates>(Allocator.Temp);
+            _storedPlatesCount = 0;
+            using NativeArray<CStoredPlates> providers = _storedPlates.ToComponentDataArray<CStoredPlates>(Allocator.Temp);
             foreach (var provider in providers)
             {
-                StoredPlates += provider.PlatesCount;
+                _storedPlatesCount += provider.PlatesCount;
             }
+            return _storedPlatesCount;
+        }
 
-            tables.Dispose();
-            providers.Dispose();
+        protected static Dictionary<int, int> GetStoredTablesDict()
+        {
+            _tablesDict.Clear();
+            using NativeArray<CStoredTables> tables = _storedTables.ToComponentDataArray<CStoredTables>(Allocator.Temp);
+            foreach (var table in tables)
+            {
+                foreach (KeyValuePair<int, int> tableData in table.GetDictionary())
+                {
+                    if (!_tablesDict.ContainsKey(tableData.Key))
+                    {
+                        _tablesDict.Add(tableData.Key, 0);
+                    }
+                    _tablesDict[tableData.Key] += tableData.Value;
+                }
+            }
+            return _tablesDict;
+        }
+
+        protected override void OnUpdate()
+        {
         }
     }
 }
